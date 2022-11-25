@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os.path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+#setting root path to the index file 
+SITE_ROOT = os.path.dirname(os.path.realpath('/accounts/index.html'))
 
 
 # Quick-start development settings - unsuitable for production
