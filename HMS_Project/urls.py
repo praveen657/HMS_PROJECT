@@ -25,6 +25,7 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name = 'accounts/logout.html'),name = 'logout'),
     path('registerpatient/', acc_views.registerpatient, name = 'registerpatient'),
     path('patientprofile/', acc_views.patientprofile, name = 'patientprofile'),
+    # path('commit/', acc_views.commit, name = 'commit'),
     
     
 

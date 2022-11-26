@@ -3,6 +3,7 @@ from .forms import PatientRegisterForm,PatientProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import connection
+from django.http import HttpResponse
 # Create your views here.
 def registerpatient(request):
 	if(request.method == 'POST'):
@@ -31,6 +32,3 @@ def patientprofile(request):
 
 
 	
-	        
-
-	       
