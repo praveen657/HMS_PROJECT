@@ -17,7 +17,20 @@ from django.contrib import admin
 from django.urls import path
 from accounts import views
 
+from django.urls import path,include
+from django.contrib.auth import views as auth_views
+from accounts import views as acc_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',include('dashboard.urls')),
+    path('login/',auth_views.LoginView.as_view(template_name = 'accounts/login.html'),name = 'login'),
+    path('logout/',auth_views.LogoutView.as_view(template_name = 'accounts/logout.html'),name = 'logout'),
+    path('registerpatient/', acc_views.registerpatient, name = 'registerpatient'),
+    path('patientprofile/', acc_views.patientprofile, name = 'patientprofile'),
+    # path('patient/', acc_views.fetchData),
     path('', views.index, name='index'),
+    
+    
 ]
+

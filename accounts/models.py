@@ -20,7 +20,9 @@ class Patient(models.Model):
     city = models.CharField(max_length=10, blank=True, null=True)
     state = models.CharField(max_length=10, blank=True, null=True)
     pincode = models.IntegerField(blank=True, null=True)
-
+    
     class Meta:
         managed = False
         db_table = 'PATIENT'
+
+
