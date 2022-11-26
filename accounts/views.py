@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django import forms
 import json
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -127,3 +128,4 @@ def patientprofile(request):
 # 	else:
 # 		pform = PatientProfileUpdateForm()
 # 	return render(request, 'accounts/patient_profile.html',{'pform':pform})
+	

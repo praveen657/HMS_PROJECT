@@ -30,6 +30,7 @@ urlpatterns = [
     path('patientprofile/', acc_views.patientprofile, name = 'patientprofile'),
     # path('patient/', acc_views.fetchData),
     path('', views.index, name='index'),
+    # path('commit/', acc_views.commit, name = 'commit'),
     
     
 ]
