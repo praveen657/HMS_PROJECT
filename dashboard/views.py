@@ -111,3 +111,22 @@ def medical_record_suc(request):
              cursor.execute(query, [diagnosis,knowndisease,patientid,date])
         return render(request, 'dashboard/medrecordsuccess.html')
             
+def medrecordsearch(request):
+    # print(pform.instance.my_field)
+    return render(request,'dashboard/medrecordsearch.html') 
+
+def medrecordview(request):
+    print(request)
+    if(request.method== 'GET'):
+        patientid = request.GET['patientid']
+        current_user = request.user
+        us = current_user.username
+        with connection.cursor() as cursor:
+             date = datetime.datetime.now().date()
+             print(date)
+             cursor.execute("select p.patientID, firstname, lastname, age, gender, diagnosis, knowndisease from patient p join medical_record m on p.patientID = m.patientID where p.patientID = %s",[patientid])
+             query = dictfetchall(cursor)
+             print(type(query))
+        return render(request, 'dashboard/medrecordview.html',{'query' : query})
+
+        
