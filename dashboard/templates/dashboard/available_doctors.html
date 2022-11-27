@@ -9,14 +9,20 @@
 	<h1>Available doctors</h1>
 	<h2>Select a doctor</h2>
 	
-		{% for x in query %}
-			<h3>{{x.FIRSTNAME}}</h3>
-		{% endfor %}
+		<form action = "doctoravailability">
+			{% for x in query %}
+			
+			<h2 name = "employeeid">{{x.EMPLOYEEID}}</h2>
+			<input type="text" name="employeeid" value = {{x.EMPLOYEEID}}>
+			<h3>{{x.FIRSTNAME}}</h3>	
+			<input type="submit" name="" value = "Book an appointment">
+			
+			{% endfor %}	
+			
 
 
-	
-	
-	
+		</form>
+		
 			
 </body>
 </html>

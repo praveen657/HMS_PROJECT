@@ -32,3 +32,9 @@ def patientprofile(request):
 
 
 	
+def commit(request):
+	with connection.cursor() as cursor:
+	        cursor.execute("commit");
+	return HttpResponse('')           
+
+	       

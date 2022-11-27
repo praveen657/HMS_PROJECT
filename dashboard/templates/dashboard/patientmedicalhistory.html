@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Medical History</title>
+</head>
+<body>
+	<h1>Patient Medical History</h1>
+	{% for x in query %}
+		<h3>{{x.PATIENTID}}</h3>
+		<h3>{{x.FIRSTNAME}}</h3>
+		<h3>{{x.LASTNAME}}</h3>
+		<h3>{{x.AGE}}</h3>
+		<h3>{{x.GENDER}}</h3>
+		<h3>{{x.DIAGNOSIS}}</h3>
+		<h3>{{x.KNOWNDISEASE}}</h3>
+	{% endfor %}
+	
+</body>
+</html>
