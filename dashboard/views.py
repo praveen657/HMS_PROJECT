@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.db import connection
 from collections import namedtuple
+import datetime
 # Create your views here.
 def home_view(request):
     if request.user.is_superuser:
@@ -58,7 +59,7 @@ def available_doctors_view(request):
     	
     	return render(request, 'dashboard/available_doctors.html',{'query' : query})
   
-
+##should change the if condition because the patient can also see the payslip 
 def payslip(request):
     if request.user.is_superuser:
         return HttpResponse('')
@@ -73,4 +74,40 @@ def payslip(request):
         return render(request, 'dashboard/payslip.html',{'query' : query})
 
 
+def docmedicalrecord(request):
+    if request.user.is_superuser:
+        return HttpResponse('')
+        
+    else:
+        current_user = request.user
+        us = current_user.username
+        with connection.cursor() as cursor:
+            cursor.execute("select e.employeeID, firstname, lastname, designation, to_char(paymentdate, 'DD-MON-YYYY') as paymentdate, amount, deptid, paymentID from payslip p join employee e on p.employeeid = e.employeeid where e.employeeID = %s order by paymentdate",[us])
+            query = dictfetchall(cursor)
+            print(query)
+        return render(request, 'dashboard/payslip.html',{'query' : query})
 
+
+
+
+def medical_record_view(request):
+    # print(pform.instance.my_field)
+    return render(request,'dashboard/docmedicalrecord.html') 
+ 
+def medical_record_suc(request):
+    print(request)
+    if(request.method== 'POST'):
+        diagnosis = request.POST["diagnosis"]
+        knowndisease = request.POST['knowndisease']
+        patientid = request.POST['patientid']
+        print(diagnosis)
+        print(knowndisease)
+        current_user = request.user
+        us = current_user.username
+        with connection.cursor() as cursor:
+             date = datetime.datetime.now().date()
+             print(date)
+             query = "INSERT into medical_record (diagnosis,knowndisease,patientid,recorddate) values (%s,%s,%s,%s)"
+             cursor.execute(query, [diagnosis,knowndisease,patientid,date])
+        return render(request, 'dashboard/medrecordsuccess.html')
+            
