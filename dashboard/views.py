@@ -8,7 +8,7 @@ def home_view(request):
         return HttpResponse('')
         
     if request.user.is_staff:
-        return HttpResponse('')
+        return render(request, 'dashboard/employeehome.html')
         
 
     else:

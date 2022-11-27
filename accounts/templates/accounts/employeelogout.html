@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HMS</title>
+
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+
+
+	<br><br><br><br><br>
+	<h2 align="center" style = "color : blue"> HMS</h2>
+	<br> <br>
+	<div class = "container">
+
+		
+
+			<h4>Logged Out!!</h4>
+
+			<a href="#"><p>Click here to login</p></a>
+
+
+
+
+
+		
+		
+
+
+
+
+	</div>
+
+	{%if messages%}
+
+		{%for message in messages%}
+			{{message}}
+		{%endfor%}
+	{%endif%}
+
+	
+</body>
+</html>
