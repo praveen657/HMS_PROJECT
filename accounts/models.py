@@ -25,4 +25,29 @@ class Patient(models.Model):
         managed = False
         db_table = 'PATIENT'
 
+class Department(models.Model):
+    deptid = models.CharField(primary_key=True, max_length=4)
+    deptname = models.CharField(max_length=50, blank=True, null=True)
 
+    class Meta:
+        managed = False
+        db_table = 'Department'
+
+
+class Employee(models.Model):
+    employeeid = models.CharField(primary_key=True, max_length=4)
+    firstname = models.CharField(max_length=20, blank=True, null=True)
+    lastname = models.CharField(max_length=20, blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+    gender = models.CharField(max_length=6, blank=True, null=True)
+    designation = models.CharField(max_length=10, blank=True, null=True)
+    experience = models.IntegerField(blank=True, null=True)
+    salary = models.IntegerField(blank=True, null=True)
+    deptid = models.ForeignKey('Department', models.DO_NOTHING, db_column='deptid', blank=True, null=True)
+    email = models.CharField(max_length=40, blank=True, null=True)
+    type = models.CharField(max_length=50, blank=True, null=True)
+    area = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'Employee'

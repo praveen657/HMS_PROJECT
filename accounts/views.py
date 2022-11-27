@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms import PatientRegisterForm,PatientProfileUpdateForm
+from .forms import PatientRegisterForm,EmployeeProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import connection
@@ -129,3 +130,43 @@ def patientprofile(request):
 # 		pform = PatientProfileUpdateForm()
 # 	return render(request, 'accounts/patient_profile.html',{'pform':pform})
 	
+
+def employeeprofile(request):
+    # print(pform.instance.my_field)
+    
+    if(request.method== 'POST'):
+        pform = EmployeeProfileUpdateForm(request.POST)
+        
+        if pform.is_valid():
+            firstname = request.POST.get('firstname')
+            lastname = request.POST.get('lastname')
+            email = request.POST.get('email')
+            with connection.cursor() as cursor:
+                current_user = request.user
+                us = current_user.username
+                print(current_user.username)
+                #cursor.execute("UP INTO patient (patientid,firstname) VALUES (8573,'firstnamel');")
+                #cursor.execute("UPDATE patient set firstname='praveen',lastname=%s where patientid=%s",[firstname,lastname,current_user.username])
+                #cursor.execute("UPDATE patient set firstname='praveen' where age=19")
+                #cursor.execute("UPDATE patient set firstname=%s,lastname=%s,age=%(age)s where patientid=%s",[firstname,lastname,us])
+                #cursor.execute("UPDATE patient set age=%(age)s where age=19")     
+                query = "UPDATE employee set firstname=%s,lastname=%s,email=%s where employeeid=%s"
+                cursor.execute(query, [firstname,lastname,email, us])                  
+                return redirect('employeeprofile')
+
+    with connection.cursor() as cursor:
+        current_user = request.user
+        us = current_user.username
+        cursor.execute("select * from employee where employeeid=%s",[us])
+        res = cursor.fetchone()
+        print(res)
+        initial_data = {
+            'firstname':res[1],
+            'lastname':res[2],
+            'email':res[9]}
+        
+    pform = EmployeeProfileUpdateForm(initial = initial_data)
+    return render(request, 'accounts/employee_profile.html',{'pform':pform})
+
+
+            
