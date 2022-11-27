@@ -17,7 +17,13 @@ def home_view(request):
         
 
     else:
-    	return render(request, 'dashboard/patienthome.html')
+    	current_user = request.user
+    	us = current_user.username
+    	with connection.cursor() as cursor:
+	        cursor.execute("with pivoted_paitent_bill as (select * from (select * from patient_bill pb) pivot (sum(pbamount) for PBStatus in ('Paid' as Patient_Bill_Paid, 'Pending' as Patient_Bill_Pending))),patient_all_bills as (select patientid, coalesce(sum(Patient_Bill_Paid), 0) as Bill_paid, coalesce(sum(Patient_Bill_Pending), 0) as Bill_Due from pivoted_paitent_bill group by patientid) select p.PatientID, firstname, lastname, age, phoneno, Bill_Paid, Bill_Due, (Bill_Paid + Bill_Due) as Total_Bill from patient p join patient_all_bills pab on p.patientid = pab.patientid where p.patientID =%s;",[us])
+	        query = dictfetchall(cursor)
+	        print(query)
+    	return render(request, 'dashboard/patienthome.html',{'query':query})
 
 
 def dictfetchall(cursor):
@@ -151,3 +157,26 @@ def patient_medical_history_view(request):
     	return render(request, 'dashboard/patientmedicalhistory.html',{'query':query})
 
 
+def patient_views_appointment_view(request):
+    if request.user.is_superuser:
+        return HttpResponse('')
+        
+    if request.user.is_staff:
+        return HttpResponse('')
+        
+
+    else:
+    	current_user = request.user
+    	us = current_user.username
+    	with connection.cursor() as cursor:
+	        # cursor.execute("select firstname, lastname, email, meetinglink, appointment_date,appointment_time from appointment a join employee e on a.employeeid = e.employeeid join online_appointment oa on a.appid = oa.appid WHERE patientid = %s",[us])
+	        cursor.execute("select firstname, lastname, email, meetinglink, to_char(appointment_date, 'DD-MON-YYYY') as appdate,appointment_time from appointment a join employee e on a.employeeid = e.employeeid join online_appointment oa on a.appid = oa.appid WHERE patientid = %s",[us])
+	        query = dictfetchall(cursor)
+
+    	
+    	
+    	
+
+	    
+    	print(query)
+    	return render(request, 'dashboard/patientappointments.html',{'query':query})

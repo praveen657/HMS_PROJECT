@@ -7,6 +7,11 @@
 </head>
 <body>
 	<p>Patient Home</p>
+	{% for x in query %}
+		<p>{{x.BILL_PAID}}</p>
+		<p>{{x.BILL_DUE}}</p>
+		<p>{{x.TOTAL_BILL}}</p>
+	{% endfor %}
 	<a class="nav-link" href="{% url 'logout' %}">Logout</a>
 	<a class="nav-link" href="{% url 'bookappointment' %}">Book an appointment</a>
 </body>
