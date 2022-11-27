@@ -7,6 +7,7 @@ from django.db import connection
 from django import forms
 import json
 from django.http import HttpResponse
+
 # Create your views here.
 
 
@@ -141,6 +142,7 @@ def employeeprofile(request):
             firstname = request.POST.get('firstname')
             lastname = request.POST.get('lastname')
             email = request.POST.get('email')
+            ssn = request.POST.get('ssn')
             with connection.cursor() as cursor:
                 current_user = request.user
                 us = current_user.username
@@ -150,8 +152,9 @@ def employeeprofile(request):
                 #cursor.execute("UPDATE patient set firstname='praveen' where age=19")
                 #cursor.execute("UPDATE patient set firstname=%s,lastname=%s,age=%(age)s where patientid=%s",[firstname,lastname,us])
                 #cursor.execute("UPDATE patient set age=%(age)s where age=19")     
-                query = "UPDATE employee set firstname=%s,lastname=%s,email=%s where employeeid=%s"
-                cursor.execute(query, [firstname,lastname,email, us])                  
+                
+                query = "UPDATE employee set firstname=%s,lastname=%s,email=%s,ssn=%s where employeeid=%s"
+                cursor.execute(query, [firstname,lastname,email,ssn, us])                  
                 return redirect('employeeprofile')
 
     with connection.cursor() as cursor:
@@ -160,10 +163,12 @@ def employeeprofile(request):
         cursor.execute("select * from employee where employeeid=%s",[us])
         res = cursor.fetchone()
         print(res)
+
         initial_data = {
             'firstname':res[1],
             'lastname':res[2],
-            'email':res[9]}
+            'email':res[9],
+            'ssn':res[13]}
         
     pform = EmployeeProfileUpdateForm(initial = initial_data)
     return render(request, 'accounts/employee_profile.html',{'pform':pform})

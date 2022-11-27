@@ -43,12 +43,13 @@ class Employee(models.Model):
     designation = models.CharField(max_length=10, blank=True, null=True)
     experience = models.IntegerField(blank=True, null=True)
     salary = models.IntegerField(blank=True, null=True)
-    deptid = models.ForeignKey('Department', models.DO_NOTHING, db_column='deptid', blank=True, null=True)
+    deptid = models.CharField(max_length=4, blank=True, null=True)
     email = models.CharField(max_length=40, blank=True, null=True)
     type = models.CharField(max_length=50, blank=True, null=True)
     area = models.CharField(max_length=50, blank=True, null=True)
+    dateofjoin = models.DateField(blank=True, null=True)
+    ssn = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'Employee'
-

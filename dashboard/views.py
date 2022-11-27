@@ -129,4 +129,14 @@ def medrecordview(request):
              print(type(query))
         return render(request, 'dashboard/medrecordview.html',{'query' : query})
 
-        
+def doctorappointments(request):
+    current_user = request.user
+    us = current_user.username
+    with connection.cursor() as cursor:
+        cursor.execute("select a.appid, firstname, lastname, age, gender, phoneno,  meetinglink, appointment_date, appointment_time from appointment a join patient p on a.patientid = p.patientid join online_appointment oa on a.appid = oa.appid WHERE employeeid = %s",[us])
+        query = dictfetchall(cursor)
+        cursor.execute("select a.appid, firstname, lastname, age, gender, phoneno,cabinno, appointment_date, appointment_time from appointment a join patient p on a.patientid = p.patientid join offline_appointment oa on a.appid = oa.appid WHERE employeeid = 'prav'")
+        offquery = dictfetchall(cursor)
+        print(offquery)
+    return render(request, 'dashboard/doctorappointments.html',{'query' : query,'offquery':offquery})
+
