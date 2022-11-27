@@ -31,6 +31,7 @@ urlpatterns = [
     path('employeelogin/',auth_views.LoginView.as_view(template_name = 'accounts/employeelogin.html'),name = 'login'),
     path('employeelogout/',auth_views.LogoutView.as_view(template_name = 'accounts/employeelogout.html'),name = 'logout'),
     path('employeeprofile/', acc_views.employeeprofile, name = 'employeeprofile'),
+
     # path('patient/', acc_views.fetchData),
     path('', views.index, name='index'),
     # path('commit/', acc_views.commit, name = 'commit'),

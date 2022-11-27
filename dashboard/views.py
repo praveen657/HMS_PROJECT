@@ -58,3 +58,19 @@ def available_doctors_view(request):
     	
     	return render(request, 'dashboard/available_doctors.html',{'query' : query})
   
+
+def payslip(request):
+    if request.user.is_superuser:
+        return HttpResponse('')
+        
+    else:
+        current_user = request.user
+        us = current_user.username
+        with connection.cursor() as cursor:
+            cursor.execute("select e.employeeID, firstname, lastname, designation, to_char(paymentdate, 'DD-MON-YYYY') as paymentdate, amount, deptid, paymentID from payslip p join employee e on p.employeeid = e.employeeid where e.employeeID = %s order by paymentdate",[us])
+            query = dictfetchall(cursor)
+            print(query)
+        return render(request, 'dashboard/payslip.html',{'query' : query})
+
+
+
