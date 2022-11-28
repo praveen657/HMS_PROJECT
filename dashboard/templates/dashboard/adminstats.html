@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Appointments</title>
+</head>
+<body>
+	<h1>Patients with pending Bill > 5000</h1>
+
+    {{ query|unordered_list }}
+        <br> <br>
+    <h1>Appointments in each department</h1>
+
+        {{ query1|unordered_list }}
+        <br> <br>
+        <h1>Highest Paid Medical Staff in each Dept</h1>
+
+        {{ query2|unordered_list }}
+</body>
+</html>

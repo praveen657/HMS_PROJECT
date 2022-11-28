@@ -140,3 +140,27 @@ def doctorappointments(request):
         print(offquery)
     return render(request, 'dashboard/doctorappointments.html',{'query' : query,'offquery':offquery})
 
+def adminstats(request):
+    if request.user.is_superuser:
+        with connection.cursor() as cursor:
+            cursor.execute("with due_bill as ( select patientID, sum(pbamount) as Bill_Due from Patient_bill where PBstatus = 'Pending' group by patientID having sum(pbamount) > 5000 ) select p.PatientID, firstname, lastname, age, gender, phoneno, Bill_Due from patient p join due_bill d on p.patientId = d.patientID order by Bill_Due desc fetch first 5 rows only")
+            offquery = dictfetchall(cursor)
+            cursor.execute("select deptname, e.firstname as employee_firstname, e.lastname as employee_lastname, a.appid as appointmentId, patientid, appointment_date, appointment_time from appointment a join employee e on a.employeeid = e.employeeid join department d on e.deptid = d.deptid order by deptname, appointment_date, appointment_time, appointmentID")
+            offquery1 = dictfetchall(cursor)
+            cursor.execute("select EmployeeID, e.deptID, DeptName as Department_Name ,firstname , lastname , Age, Gender, Designation, salary, row_number() over (partition by e.deptID order by salary desc) orderbysalary from employee e join department d on e.deptid = d.deptid")
+            offquery2 = dictfetchall(cursor)
+        return render(request, 'dashboard/adminstats.html',{'query' : offquery,'query1' : offquery1,'query2' : offquery2})
+        
+    if request.user.is_staff:
+         return HttpResponse('')
+        
+    else:
+        return HttpResponse('')
+    	
+
+# with due_bill as ( select patientID, sum(pbamount) as Bill_Due from Patient_bill where PBstatus = 'Pending' group by patientID having sum(pbamount) > 5000 ) select p.PatientID, firstname, lastname, age, gender, phoneno, Bill_Due from patient p join due_bill d on p.patientId = d.patientID order by Bill_Due desc fetch first 5 rows only
+# ;
+
+#select deptname, e.firstname as employee_firstname, e.lastname as employee_lastname, a.appid as appointmentId, patientid, appointment_date, appointment_time from appointment a join employee e on a.employeeid = e.employeeid join department d on e.deptid = d.deptid order by deptname, appointment_date, appointment_time, appointmentID  ;
+
+#select EmployeeID, e.deptID, DeptName as Department_Name ,firstname as "Employee First Name", lastname as "Employee Last Name", Age, Gender, Designation, salary, row_number() over (partition by e.deptID order by salary desc) orderbysalary from employee e join department d on e.deptid = d.deptid
